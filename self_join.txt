@@ -1,0 +1,18 @@
+Categories
+=================
+
+Electronics                    ---> root Categories
+    - Mobile                   ---> sub Categories
+        - Android Phone        --- child Categories
+        - iPhone
+    - Laptop
+        - Gaming Laptop
+        - Business Laptop
+Fashion
+    - Men
+        - Shirt
+        - Pant
+
+    - Women
+        - Saree
+        - Salwar Kameez

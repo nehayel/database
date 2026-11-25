@@ -256,3 +256,126 @@ ON p.category_id = c.id
 
 INNER JOIN users AS u
 ON c.user_id = u.id 
+
+
+
+---left Join
+SELECT 
+categories.name,
+products.name,
+products.price
+
+FROM
+categories LEFT JOIN products
+ON categories.id = products.category_id
+
+
+
+---Full Outer Join
+SELECT
+c.name AS category_name,
+p.name AS product_name,
+p.price AS product_price
+
+FROM
+products AS p FULL OUTER JOIN categories AS c
+ON p.category_id = c.id
+
+
+---group by and having clause
+
+CREATE Table sales(
+   customer_name VARCHAR(50),
+   category VARCHAR(50),
+   amount NUMERIC(10,2),
+   city VARCHAR(50)
+)
+
+INSERT INTO sales (customer_name, category, amount, city) VALUES
+('Rahim', 'Electronics', 25000.00, 'Dhaka'),
+('Karim', 'Furniture', 18000.00, 'Chattogram'),
+('Rahim', 'Clothing', 4500.00, 'Dhaka'),
+('Tanvir', 'Electronics', 32000.00, 'Khulna'),
+('Karim', 'Groceries', 2200.00, 'Rajshahi'),
+('Rahim', 'Furniture', 27000.00, 'Sylhet'),
+('Tanvir', 'Clothing', 6800.00, 'Dhaka'),
+('Rahim', 'Groceries', 1500.00, 'Barishal'),
+('Karim', 'Electronics', 41000.00, 'Chattogram'),
+('Tanvir', 'Furniture', 12500.00, 'Rangpur');
+
+
+SELECT * FROM sales
+
+--- Grop BY
+
+SELECT customer_name, sum(amount) FROM sales GROUP BY customer_name 
+
+SELECT category, sum(amount) AS Total FROM sales GROUP BY category
+
+SELECT city, sum(amount) As total FROM sales GROUP BY city
+
+
+---Having 
+
+SELECT customer_name, sum(amount) FROM sales GROUP BY customer_name HAVING sum(amount)>60000
+
+SELECT category, sum(amount) AS Total FROM sales GROUP BY category HAVING sum(amount) > 20000
+
+SELECT city, sum(amount) As total FROM sales GROUP BY city HAVING sum(amount) > 40000
+
+
+
+---DISTINCT---> Unique
+
+
+ALTER TABLE sales ADD COLUMN id SERIAL PRIMARY KEY;
+
+SELECT * FROM sales
+
+SELECT DISTINCT city FROM sales 
+
+SELECT city FROM sales
+
+SELECT customer_name FROM sales
+
+SELECT DISTINCT customer_name FROM sales
+
+SELECT customer_name, category, city FROM sales
+
+SELECT DISTINCT customer_name, category, city FROM sales
+
+
+---order by
+
+SELECT * FROM sales ORDER BY amount ASC ----small to big
+
+SELECT * FROM sales ORDER BY amount DESC ---big to small
+
+---limit and pagination
+
+SELECT * FROM sales LIMIT 5 OFFSET 0 ----skip 1st 0 rows take 5 rows ---page 1
+
+SELECT * FROM sales LIMIT 5 OFFSET 5----skip 1st 5 rows take 5 rows ---page 2
+
+SELECT * FROM sales LIMIT 5 OFFSET 10 ----skip 1st 10 rows take 5 rows ---page 3
+
+SELECT * FROM sales LIMIT 5 OFFSET 15 ----skip 1st 15 rows take 5 rows ---page 4
+
+
+---Between / not between
+
+SELECT * FROM sales WHERE amount BETWEEN 1000 AND 2000 --- 1000 to 2000 tk
+
+SELECT * FROM sales WHERE amount NOT BETWEEN 1000 AND 2000 --- SKIP 1000 to 2000 tk
+
+
+---in / not in
+
+SELECT * FROM sales WHERE amount IN (1500,1800,1900)  --- just (1500,1800,1900) tk's rows
+
+SELECT * FROM sales WHERE amount NOT IN (1500,1800,1900)  --- just SKIP (1500,1800,1900) tk's rows
+
+--- exist
+SELECT * FROM sales WHERE EXISTS (
+   SELECT 1 FROM sales WHERE amount < 2000  ---just true false dekhe true hoilei sob show korbe false hoile ektaw na 
+)
